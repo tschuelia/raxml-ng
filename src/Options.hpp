@@ -78,6 +78,7 @@ public:
   StartingTreeMap start_trees;
   double lh_epsilon;
   double lh_epsilon_auto;
+  double lh_epsilon_fast;
   int spr_radius;
   double spr_cutoff;
   int brlen_linkage;

@@ -6,6 +6,7 @@
 
 #define DEF_LH_EPSILON            0.1
 #define DEF_LH_EPSILON_AUTO       0.1
+#define DEF_LH_EPSILON_FAST       0.1
 #define OPT_LH_EPSILON            0.1
 #define RAXML_PARAM_EPSILON       0.001  //0.01
 #define RAXML_BFGS_FACTOR         1e7

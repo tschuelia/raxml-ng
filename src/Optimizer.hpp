@@ -20,6 +20,7 @@ private:
   int _spr_radius;
   double _spr_cutoff;
   double _lh_epsilon_auto;
+  double _lh_epsilon_fast;
 };
 
 #endif /* RAXML_OPTIMIZER_H_ */

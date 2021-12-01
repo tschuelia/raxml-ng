@@ -426,6 +426,7 @@ std::ostream& operator<<(std::ostream& stream, const Options& opts)
     }
 
     stream << "  lh-epsilon during autodetect spr rounds: " << opts.lh_epsilon_auto << endl;
+    stream << "  lh-epsilon during fast spr rounds: " << opts.lh_epsilon_fast << endl;
 
     stream << "  branch lengths: ";
     if (opts.brlen_linkage == PLLMOD_COMMON_BRLEN_SCALED)

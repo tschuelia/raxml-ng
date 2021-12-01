@@ -6,7 +6,8 @@ Optimizer::Optimizer (const Options &opts) :
     _lh_epsilon(opts.lh_epsilon),
     _spr_radius(opts.spr_radius),
     _spr_cutoff(opts.spr_cutoff),
-    _lh_epsilon_auto(opts.lh_epsilon_auto)
+    _lh_epsilon_auto(opts.lh_epsilon_auto),
+    _lh_epsilon_fast(opts.lh_epsilon_fast)
 {
 }
 
@@ -125,7 +126,6 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
             spr_params.radius_max << ")" << endl;
         loglh = treeinfo.spr_round(spr_params);
 
-//        if (loglh - best_loglh > 0.1)
         LOG_PROGRESS(loglh) << "AUTODETECT eps = " << _lh_epsilon_auto << endl;
         if (loglh - best_loglh > _lh_epsilon_auto)
         {
@@ -167,6 +167,7 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
 
   double old_loglh;
 
+  LOG_PROGRESS(loglh) << "FAST eps = " << _lh_epsilon_fast << endl;
   if (do_step(CheckpointStep::fastSPR))
   {
     do
@@ -181,7 +182,7 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
       /* optimize ALL branches */
       loglh = treeinfo.optimize_branches(_lh_epsilon, 1);
     }
-    while (loglh - old_loglh > _lh_epsilon);
+    while (loglh - old_loglh > _lh_epsilon_fast);
   }
 
   if (do_step(CheckpointStep::modOpt3))
