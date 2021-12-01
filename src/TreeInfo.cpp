@@ -387,9 +387,9 @@ double TreeInfo::spr_round(spr_round_params& params)
   double loglh = pllmod_algo_spr_round(_pll_treeinfo, params.radius_min, params.radius_max,
                                params.ntopol_keep, params.thorough, _brlen_opt_method,
                                _brlen_min, _brlen_max, RAXML_BRLEN_SMOOTHINGS,
-                               0.1,
+                               params.lh_epsilon_brlen_full,
                                params.subtree_cutoff > 0. ? &params.cutoff_info : nullptr,
-                               params.subtree_cutoff);
+                               params.subtree_cutoff, 0.1);
 
   libpll_check_error("ERROR in SPR round");
 

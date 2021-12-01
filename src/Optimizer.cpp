@@ -60,6 +60,8 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
   spr_round_params& spr_params = search_state.spr_params;
   int& best_fast_radius = search_state.fast_spr_radius;
 
+    spr_params.lh_epsilon_brlen_full = _lh_epsilon_brlen_full;
+
   CheckpointStep resume_step = search_state.step;
 
   /* Compute initial LH of the starting tree */
