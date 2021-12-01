@@ -8,7 +8,8 @@ Optimizer::Optimizer (const Options &opts) :
     _spr_cutoff(opts.spr_cutoff),
     _lh_epsilon_auto(opts.lh_epsilon_auto),
     _lh_epsilon_fast(opts.lh_epsilon_fast),
-    _lh_epsilon_slow(opts.lh_epsilon_slow)
+    _lh_epsilon_slow(opts.lh_epsilon_slow),
+    _lh_epsilon_brlen_full(opts.lh_epsilon_brlen_full)
 {
 }
 
@@ -169,6 +170,7 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
   double old_loglh;
 
   LOG_PROGRESS(loglh) << "FAST eps = " << _lh_epsilon_fast << endl;
+  LOG_PROGRESS(loglh) << "Full brlen eps = " << _lh_epsilon_brlen_full << endl;
   if (do_step(CheckpointStep::fastSPR))
   {
     do
@@ -181,7 +183,7 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
       loglh = treeinfo.spr_round(spr_params);
 
       /* optimize ALL branches */
-      loglh = treeinfo.optimize_branches(_lh_epsilon, 1);
+      loglh = treeinfo.optimize_branches(_lh_epsilon_brlen_full, 1);
     }
     while (loglh - old_loglh > _lh_epsilon_fast);
   }
@@ -212,7 +214,7 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
       loglh = treeinfo.spr_round(spr_params);
 
       /* optimize ALL branches */
-      loglh = treeinfo.optimize_branches(_lh_epsilon, 1);
+      loglh = treeinfo.optimize_branches(_lh_epsilon_brlen_full, 1);
 
       bool impr = (loglh - old_loglh > _lh_epsilon_slow);
       if (impr)
@@ -237,8 +239,9 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
   if (do_step(CheckpointStep::modOpt4))
   {
     cm.update_and_write(treeinfo);
-    LOG_PROGRESS(loglh) << "Model parameter optimization (eps = " << _lh_epsilon << ")" << endl;
-    loglh = optimize_model(treeinfo, _lh_epsilon);
+    LOG_PROGRESS(loglh) << "Model parameter optimization (eps = " << 0.1 << ")" << endl;
+    // loglh = optimize_model(treeinfo, _lh_epsilon);
+    loglh = optimize_model(treeinfo, 0.1);
   }
 
   if (do_step(CheckpointStep::finish))

@@ -82,6 +82,7 @@ static struct option long_options[] =
   {"lh-epsilon-auto",    required_argument, 0, 0 },  /*  58 */
   {"lh-epsilon-fast",    required_argument, 0, 0 },  /*  59 */
   {"lh-epsilon-slow",    required_argument, 0, 0 },  /*  60 */
+  {"lh-epsilon-brlen-full",    required_argument, 0, 0 },  /*  61 */
 
   { 0, 0, 0, 0 }
 };
@@ -304,6 +305,9 @@ void CommandLineParser::parse_options(int argc, char** argv, Options &opts)
 
   /* initialize LH epsilon for fast SPR rounds with default value */
   opts.lh_epsilon_slow = DEF_LH_EPSILON_SLOW;
+
+  /* initialize LH epsilon for full brlen opts with default value */
+    opts.lh_epsilon_brlen_full = DEF_LH_EPSILON_BRLEN_FULL;
 
   /* default: autodetect best SPR radius */
   opts.spr_radius = -1;
@@ -975,6 +979,16 @@ void CommandLineParser::parse_options(int argc, char** argv, Options &opts)
         }
         break;
 
+
+      case 61: /* lheps for full brlen opt */
+        if(sscanf(optarg, "%lf", &opts.lh_epsilon_brlen_full) != 1 || opts.lh_epsilon_brlen_full <= 0)
+        {
+            throw InvalidOptionValueException("Invalid lh_eps for full brlen opt: " +
+                                              string(optarg) +
+                                              ", please provide a positive real number.");
+        }
+        break;
+
       default:
         throw  OptionException("Internal error in option parsing");
     }
@@ -1081,6 +1095,7 @@ void CommandLineParser::print_help()
             "  --lh-epsilon-auto   VALUE                  log-likelihood epsilon used during the autodetect SPR rounds (default: 0.1)\n"
             "  --lh-epsilon-fast   VALUE                  log-likelihood epsilon used during the fast SPR rounds (default: 0.1)\n"
             "  --lh-epsilon-slow   VALUE                  log-likelihood epsilon used during the slow SPR rounds (default: 0.1)\n"
+            "  --lh-epsilon-brlen-full   VALUE            log-likelihood epsilon used during full brlen optimization (default: 0.1)\n"
             "\n"
             "Topology search options:\n"
             "  --spr-radius   VALUE                       SPR re-insertion radius for fast iterations (default: AUTO)\n"
