@@ -9,7 +9,8 @@ Optimizer::Optimizer (const Options &opts) :
     _lh_epsilon_auto(opts.lh_epsilon_auto),
     _lh_epsilon_fast(opts.lh_epsilon_fast),
     _lh_epsilon_slow(opts.lh_epsilon_slow),
-    _lh_epsilon_brlen_full(opts.lh_epsilon_brlen_full)
+    _lh_epsilon_brlen_full(opts.lh_epsilon_brlen_full),
+    _lh_epsilon_brlen_triplet(opts.lh_epsilon_brlen_triplet)
 {
 }
 
@@ -60,7 +61,8 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
   spr_round_params& spr_params = search_state.spr_params;
   int& best_fast_radius = search_state.fast_spr_radius;
 
-    spr_params.lh_epsilon_brlen_full = _lh_epsilon_brlen_full;
+  spr_params.lh_epsilon_brlen_full = _lh_epsilon_brlen_full;
+  spr_params.lh_epsilon_brlen_triplet = _lh_epsilon_brlen_triplet;
 
   CheckpointStep resume_step = search_state.step;
 

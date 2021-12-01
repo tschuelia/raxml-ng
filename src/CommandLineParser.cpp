@@ -83,6 +83,7 @@ static struct option long_options[] =
   {"lh-epsilon-fast",    required_argument, 0, 0 },  /*  59 */
   {"lh-epsilon-slow",    required_argument, 0, 0 },  /*  60 */
   {"lh-epsilon-brlen-full",    required_argument, 0, 0 },  /*  61 */
+  {"lh-epsilon-brlen-triplet",    required_argument, 0, 0 },  /*  62 */
 
   { 0, 0, 0, 0 }
 };
@@ -307,7 +308,10 @@ void CommandLineParser::parse_options(int argc, char** argv, Options &opts)
   opts.lh_epsilon_slow = DEF_LH_EPSILON_SLOW;
 
   /* initialize LH epsilon for full brlen opts with default value */
-    opts.lh_epsilon_brlen_full = DEF_LH_EPSILON_BRLEN_FULL;
+  opts.lh_epsilon_brlen_full = DEF_LH_EPSILON_BRLEN_FULL;
+
+  /* initialize LH epsilon for triplet brlen opts with default value */
+  opts.lh_epsilon_brlen_triplet = DEF_LH_EPSILON_BRLEN_TRIPLET;
 
   /* default: autodetect best SPR radius */
   opts.spr_radius = -1;
@@ -989,6 +993,15 @@ void CommandLineParser::parse_options(int argc, char** argv, Options &opts)
         }
         break;
 
+        case 62: /* lheps for triplet brlen opt */
+        if(sscanf(optarg, "%lf", &opts.lh_epsilon_brlen_triplet) != 1 || opts.lh_epsilon_brlen_triplet <= 0)
+        {
+            throw InvalidOptionValueException("Invalid lh_eps for triplet brlen opt: " +
+                                              string(optarg) +
+                                              ", please provide a positive real number.");
+        }
+        break;
+
       default:
         throw  OptionException("Internal error in option parsing");
     }
@@ -1096,6 +1109,7 @@ void CommandLineParser::print_help()
             "  --lh-epsilon-fast   VALUE                  log-likelihood epsilon used during the fast SPR rounds (default: 0.1)\n"
             "  --lh-epsilon-slow   VALUE                  log-likelihood epsilon used during the slow SPR rounds (default: 0.1)\n"
             "  --lh-epsilon-brlen-full   VALUE            log-likelihood epsilon used during full brlen optimization (default: 0.1)\n"
+            "  --lh-epsilon-brlen-triple   VALUE          log-likelihood epsilon used during triplet brlen optimization (default: 0.1)\n"
             "\n"
             "Topology search options:\n"
             "  --spr-radius   VALUE                       SPR re-insertion radius for fast iterations (default: AUTO)\n"

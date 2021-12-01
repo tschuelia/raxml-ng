@@ -13,6 +13,7 @@
 #define RAXML_BFGS_FACTOR         1e7
 
 #define DEF_LH_EPSILON_BRLEN_FULL      0.1
+#define DEF_LH_EPSILON_BRLEN_TRIPLET      0.1
 
 #define RAXML_BRLEN_SMOOTHINGS    32
 #define RAXML_BRLEN_DEFAULT       0.1

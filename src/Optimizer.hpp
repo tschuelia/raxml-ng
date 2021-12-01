@@ -23,6 +23,7 @@ private:
   double _lh_epsilon_fast;
   double _lh_epsilon_slow;
   double _lh_epsilon_brlen_full;
+  double _lh_epsilon_brlen_triplet;
 };
 
 #endif /* RAXML_OPTIMIZER_H_ */

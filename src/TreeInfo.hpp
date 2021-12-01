@@ -16,6 +16,7 @@ struct spr_round_params
   double subtree_cutoff;
   cutoff_info_t cutoff_info;
   double lh_epsilon_brlen_full;
+  double lh_epsilon_brlen_triplet;
 
   void reset_cutoff_info(double loglh)
   {
