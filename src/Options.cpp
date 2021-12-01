@@ -425,6 +425,8 @@ std::ostream& operator<<(std::ostream& stream, const Options& opts)
         stream << "  spr subtree cutoff: OFF" << endl;
     }
 
+    stream << "  lh-epsilon during autodetect spr rounds: " << opts.lh_epsilon_auto << endl;
+
     stream << "  branch lengths: ";
     if (opts.brlen_linkage == PLLMOD_COMMON_BRLEN_SCALED)
       stream << "proportional";

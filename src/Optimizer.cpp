@@ -3,7 +3,10 @@
 using namespace std;
 
 Optimizer::Optimizer (const Options &opts) :
-    _lh_epsilon(opts.lh_epsilon), _spr_radius(opts.spr_radius), _spr_cutoff(opts.spr_cutoff)
+    _lh_epsilon(opts.lh_epsilon),
+    _spr_radius(opts.spr_radius),
+    _spr_cutoff(opts.spr_cutoff),
+    _lh_epsilon_auto(opts.lh_epsilon_auto)
 {
 }
 
@@ -122,7 +125,9 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
             spr_params.radius_max << ")" << endl;
         loglh = treeinfo.spr_round(spr_params);
 
-        if (loglh - best_loglh > 0.1)
+//        if (loglh - best_loglh > 0.1)
+        LOG_PROGRESS(loglh) << "AUTODETECT eps = " << _lh_epsilon_auto << endl;
+        if (loglh - best_loglh > _lh_epsilon_auto)
         {
           /* LH improved, try to increase the radius */
           best_fast_radius = spr_params.radius_max;

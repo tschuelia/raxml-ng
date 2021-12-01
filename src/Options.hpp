@@ -77,6 +77,7 @@ public:
   long random_seed;
   StartingTreeMap start_trees;
   double lh_epsilon;
+  double lh_epsilon_auto;
   int spr_radius;
   double spr_cutoff;
   int brlen_linkage;
