@@ -21,6 +21,7 @@ private:
   double _spr_cutoff;
   double _lh_epsilon_auto;
   double _lh_epsilon_fast;
+  double _lh_epsilon_slow;
 };
 
 #endif /* RAXML_OPTIMIZER_H_ */

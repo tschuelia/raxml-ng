@@ -7,7 +7,8 @@ Optimizer::Optimizer (const Options &opts) :
     _spr_radius(opts.spr_radius),
     _spr_cutoff(opts.spr_cutoff),
     _lh_epsilon_auto(opts.lh_epsilon_auto),
-    _lh_epsilon_fast(opts.lh_epsilon_fast)
+    _lh_epsilon_fast(opts.lh_epsilon_fast),
+    _lh_epsilon_slow(opts.lh_epsilon_slow)
 {
 }
 
@@ -198,6 +199,7 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
     iter = 0;
   }
 
+  LOG_PROGRESS(loglh) << "SLOW eps = " << _lh_epsilon_slow << endl;
   if (do_step(CheckpointStep::slowSPR))
   {
     do
@@ -212,7 +214,7 @@ double Optimizer::optimize_topology(TreeInfo& treeinfo, CheckpointManager& cm)
       /* optimize ALL branches */
       loglh = treeinfo.optimize_branches(_lh_epsilon, 1);
 
-      bool impr = (loglh - old_loglh > _lh_epsilon);
+      bool impr = (loglh - old_loglh > _lh_epsilon_slow);
       if (impr)
       {
         /* got improvement in thorough mode: reset min radius to 1 */

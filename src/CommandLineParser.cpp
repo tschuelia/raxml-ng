@@ -81,7 +81,7 @@ static struct option long_options[] =
   {"bs-write-msa",       no_argument, 0, 0 },        /*  57 */
   {"lh-epsilon-auto",    required_argument, 0, 0 },  /*  58 */
   {"lh-epsilon-fast",    required_argument, 0, 0 },  /*  59 */
-
+  {"lh-epsilon-slow",    required_argument, 0, 0 },  /*  60 */
 
   { 0, 0, 0, 0 }
 };
@@ -299,8 +299,11 @@ void CommandLineParser::parse_options(int argc, char** argv, Options &opts)
   /* initialize LH epsilon for autodetect SPR rounds with default value */
   opts.lh_epsilon_auto = DEF_LH_EPSILON_AUTO;
 
-    /* initialize LH epsilon for fast SPR rounds with default value */
-    opts.lh_epsilon_fast = DEF_LH_EPSILON_FAST;
+  /* initialize LH epsilon for fast SPR rounds with default value */
+  opts.lh_epsilon_fast = DEF_LH_EPSILON_FAST;
+
+  /* initialize LH epsilon for fast SPR rounds with default value */
+  opts.lh_epsilon_slow = DEF_LH_EPSILON_SLOW;
 
   /* default: autodetect best SPR radius */
   opts.spr_radius = -1;
@@ -963,6 +966,15 @@ void CommandLineParser::parse_options(int argc, char** argv, Options &opts)
         }
         break;
 
+      case 60: /* lheps for slow spr rounds */
+        if(sscanf(optarg, "%lf", &opts.lh_epsilon_slow) != 1 || opts.lh_epsilon_slow <= 0)
+        {
+            throw InvalidOptionValueException("Invalid lh_eps for slow spr rounds: " +
+                                              string(optarg) +
+                                              ", please provide a positive real number.");
+        }
+        break;
+
       default:
         throw  OptionException("Internal error in option parsing");
     }
@@ -1068,6 +1080,7 @@ void CommandLineParser::print_help()
             "  --lh-epsilon   VALUE                       log-likelihood epsilon for optimization/tree search (default: 0.1)\n"
             "  --lh-epsilon-auto   VALUE                  log-likelihood epsilon used during the autodetect SPR rounds (default: 0.1)\n"
             "  --lh-epsilon-fast   VALUE                  log-likelihood epsilon used during the fast SPR rounds (default: 0.1)\n"
+            "  --lh-epsilon-slow   VALUE                  log-likelihood epsilon used during the slow SPR rounds (default: 0.1)\n"
             "\n"
             "Topology search options:\n"
             "  --spr-radius   VALUE                       SPR re-insertion radius for fast iterations (default: AUTO)\n"

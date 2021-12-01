@@ -79,6 +79,7 @@ public:
   double lh_epsilon;
   double lh_epsilon_auto;
   double lh_epsilon_fast;
+  double lh_epsilon_slow;
   int spr_radius;
   double spr_cutoff;
   int brlen_linkage;
