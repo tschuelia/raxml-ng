@@ -273,7 +273,7 @@ Tree Tree::buildParsimonyConstrained(const PartitionedMSA& parted_msa, unsigned 
 
   libpll_check_error("ERROR building parsimony tree");
   assert(!tree.empty());
-
+  LOG_INFO << "Parsimony score: " << *pscore << endl;
   return tree;
 }
 
