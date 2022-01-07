@@ -113,7 +113,7 @@ void RFDistCalculator::calc_rfdist(const TreeList &trees) {
 
     list<list<size_t>> clusters;
 
-    for (size_t j = 0; j < _num_trees - 1; j++) {
+    for (size_t j = 0; j < _num_trees; j++) {
         bool found = false;
         for (list<size_t>& cluster: clusters) {
             size_t k = cluster.front();
